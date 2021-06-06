@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+let items= [];
 
 //set up ejs
 app.set('views', './views');
@@ -12,36 +13,32 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use('css', express.static(__dirname + '/public/css'))
 
+// express body-parser
+
+app.use(express.urlencoded())
+
 app.get('/', (req, res)=>{
 
-    const day = new Date().getDay();
-    let todayIs ='';
-     
-     switch(day){
-        case 0:
-             todayIs = 'Sunday';
-            break;
-        case 1:
-             todayIs = 'Monday';
-            break;
-        case 2:
-             todayIs = 'Tuesday';
-            break;
-        case 3:
-             todayIs = 'Wednesday';
-            break;
-        case 4:
-             todayIs = 'Thursday';
-            break;
-        case 5:
-             todayIs = 'Friday';
-            break
-        case 6:
-             todayIs = 'Saturday';
-            break;
-        
-     }
-     res.render('index', {day :todayIs});
+    const day = new Date()
+    var options = {
+        weekday:'long',
+        year:'numeric',
+        day:'numeric',
+        month:'long'
+    }
+
+    let todayIs = day.toLocaleDateString('en-US', options)
+    
+     res.render('index', {day :todayIs, newTodo: items});
+})
+
+app.post('/', (req, res)=>{
+  let item = req.body.todo;
+  if(item){
+    items.push(item)
+  }
+  //check for valid user
+  res.redirect('/')
 })
 
 
