@@ -1,15 +1,48 @@
 const express = require('express');
-const ejs = require ('ejs')
 const app = express();
 
 
+//set up ejs
+app.set('views', './views');
+app.set('view engine', 'ejs');
 
-app.use(express.urlencoded());
+
+// accesing the static files
+
+app.use(express.static('public'));
+app.use('css', express.static(__dirname + '/public/css'))
 
 app.get('/', (req, res)=>{
-    res.send('Up and running')
-})
 
+    const day = new Date().getDay();
+    let todayIs ='';
+     
+     switch(day){
+        case 0:
+             todayIs = 'Sunday';
+            break;
+        case 1:
+             todayIs = 'Monday';
+            break;
+        case 2:
+             todayIs = 'Tuesday';
+            break;
+        case 3:
+             todayIs = 'Wednesday';
+            break;
+        case 4:
+             todayIs = 'Thursday';
+            break;
+        case 5:
+             todayIs = 'Friday';
+            break
+        case 6:
+             todayIs = 'Saturday';
+            break;
+        
+     }
+     res.render('index', {day :todayIs});
+})
 
 
 
