@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://kit.fontawesome.com/9ca08a6a82.js" crossorigin="anonymous"></script>
-    <title>Todo- fullstack</title>
-</head>
-<body>
- <h1><%= day%></h1>
+<%- include('header') -%>
+ <h1 id="heading"><%= day%></h1>
  <div class="wrapper">
    <div class="box">
   <ul class="grid">
         
       <% for(var i = 0; i < newTodo.length; i++){%>
-        <li><div class="item">  <input type="checkbox"> <p><%= newTodo[i]%></p></div></li>
+        <li><div class="item">  <input type="checkbox" > <p><%= newTodo[i]%></p></div></li>
      <% }%>
     
    </ul>
@@ -23,11 +13,11 @@
    
    <div class="form-group">
      <form action="/" method="post">
-       <input type="text" name="todo" autofocus>
+       <input type="text" name="todo" placeholder="New Item" >
        <button type="submit"><i class="fas fa-plus"></i></button>
      </form>
    </div>
 
- </div>
-</body>
-</html>
+  </div>
+  
+<%- include('footer')-%>

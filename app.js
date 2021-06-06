@@ -1,7 +1,8 @@
 const express = require('express');
+const date = require(__dirname + '/date.js')
 const app = express();
 
-let items= [];
+const items= [];
 
 //set up ejs
 app.set('views', './views');
@@ -18,18 +19,9 @@ app.use('css', express.static(__dirname + '/public/css'))
 app.use(express.urlencoded())
 
 app.get('/', (req, res)=>{
+     const day = date()
 
-    const day = new Date()
-    var options = {
-        weekday:'long',
-        year:'numeric',
-        day:'numeric',
-        month:'long'
-    }
-
-    let todayIs = day.toLocaleDateString('en-US', options)
-    
-     res.render('index', {day :todayIs, newTodo: items});
+     res.render('index', {day :day, newTodo: items});
 })
 
 app.post('/', (req, res)=>{
