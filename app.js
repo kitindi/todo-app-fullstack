@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.urlencoded())
 
 // connecting to the database
 // import mongodb library mongoose & 
@@ -9,8 +10,6 @@ mongoose.connect('mongodb://localhost/todolistDB', {useNewUrlParser: true, useUn
 //set up ejs
 app.set('views', './views');
 app.set('view engine', 'ejs');
-
-
 
 // defining scheme
 
@@ -28,13 +27,13 @@ const item3 = new Item({name: "Hit <---- button to delete an item"})
 const defaultItems = [item1, item2, item3]
 
 
-Item.insertMany(defaultItems, function(err){
-  if(err){
-    console.log(err)
-  }else{
-    console.log("sucsessfully added")
-  }
-})
+// Item.insertMany(defaultItems, function(err){
+//   if(err){
+//     console.log(err)
+//   }else{
+//     console.log("sucsessfully added")
+//   }
+// })
 
 // accesing the static files
 
@@ -42,20 +41,36 @@ app.use(express.static('public'));
 app.use('css', express.static(__dirname + '/public/css'))
 
 // express body-parser
-app.use(express.urlencoded())
+// app.use(express.urlencoded())
 
 app.get('/', (req, res)=>{
+   Item.find({}, function(err, foundItems){
+     if(foundItems.length === 0){
+      Item.insertMany(defaultItems, function(err){
+        if(err){
+        console.log(err)
+           }else{
+            console.log("sucsessfully added")
+             }
+          });
+          res.redirect('/')
+     }else{
+       res.render('index', {day :"Today", newTodo:foundItems});
 
-     res.render('index', {day :"Today", newTodo: items});
+     }
+
+    //  console.log(foundItems)
+   })
 })
 
 app.post('/', (req, res)=>{
-  let item = req.body.todo;
-  if(item){
-    items.push(item)
+  let itemName = req.body.todo;
+  //creating new item to save in database
+  if(itemName){
+    const item = new Item({name:itemName})
+    item.save();
   }
-  //check for valid user
-  res.redirect('/')
+   res.redirect('/'); 
 })
 
 

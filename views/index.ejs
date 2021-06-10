@@ -3,11 +3,11 @@
  <div class="wrapper">
    <div class="box">
   <ul class="grid">
-        
-      <% for(var i = 0; i < newTodo.length; i++){%>
-        <li><div class="item">  <input type="checkbox" > <p><%= newTodo[i]%></p></div></li>
+    <% newTodo.forEach(item =>{%><li><div class="item"><input type="checkbox" > <p><%=item.name%></p></div></li><%}) %>       
+      <!-- <% for(var i = 0; i < newTodo.length; i++){%>
+        <li>   <p><%= newTodo[i].name%></p></div></li>
      <% }%>
-    
+     -->
    </ul>
    </div>
    
