@@ -73,7 +73,18 @@ app.post('/', (req, res)=>{
    res.redirect('/'); 
 })
 
+app.post('/delete', (req, res)=>{
+  const checkedItemId =req.body.checkbox;
+  Item.deleteOne({_id: checkedItemId},function(err){
+    if(err){
+      console.log("try again")
+    }else{
+      console.log("successfully deleted")
+    }
 
+    res.redirect('/');
+  })
+})
 
 app.listen(3000, (req, res)=>{
     console.log('Server is running on port 3000');
